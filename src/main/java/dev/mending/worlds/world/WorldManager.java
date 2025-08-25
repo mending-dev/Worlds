@@ -44,15 +44,13 @@ public class WorldManager extends Configuration {
         for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             String name = entry.getKey();
             WorldSettings settings = gson.fromJson(entry.getValue(), WorldSettings.class);
-            new WorldBuilder(plugin, name, settings).create();
+
+            if (plugin.getServer().getWorld(name) == null) {
+                new WorldBuilder(plugin, name, settings).create();
+            }
+
             this.worlds.put(name, settings);
         }
-
-        // DEBUG: Print worlds
-        // TODO: Remove this code
-        this.worlds.forEach((name, settings) -> {
-            plugin.getLogger().info(name + ": " + settings.getType().name() + ", " + settings.getEnvironment().name());
-        });
     }
 
     @Override
