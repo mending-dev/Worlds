@@ -8,7 +8,6 @@ import dev.mending.core.paper.api.config.json.Configuration;
 import dev.mending.worlds.world.settings.WorldSettings;
 import dev.mending.worlds.world.settings.WorldSettingsAdapter;
 import lombok.Getter;
-import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +50,16 @@ public class WorldManager extends Configuration {
 
             this.worlds.put(name, settings);
         }
+
+        // Import already existing worlds
+        plugin.getServer().getWorlds().forEach(world -> {
+            if (!worlds.containsKey(world.getName())) {
+                WorldSettings settings = new WorldSettings();
+                settings.setEnvironment(world.getEnvironment());
+                settings.setType(world.getWorldType());
+                this.worlds.put(world.getName(), settings);
+            }
+        });
     }
 
     @Override

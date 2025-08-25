@@ -7,6 +7,8 @@
     "creating": "<prefix> <gray>Creating <yellow>%world% <gray>...",
     "created": "<prefix> <yellow>%world% <gray>has been created.",
     "deleting": "<prefix> <gray>Deleting <yellow>%world% <gray>...",
-    "deleted": "<prefix> <yellow>%world% <gray>has been deleted."
+    "deleted": "<prefix> <yellow>%world% <gray>has been deleted.",
+    "flag": "<prefix> <gray>Flag <yellow>%flag% <gray>is currently set to <yellow>%value%<gray>.",
+    "flagUpdated": "<prefix> <gray>Flag <yellow>%flag% <gray>has been set to <yellow>%value%<gray>."
   }
 }

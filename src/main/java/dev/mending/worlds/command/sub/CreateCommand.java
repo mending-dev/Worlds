@@ -37,9 +37,9 @@ public class CreateCommand implements ICommand {
                 .then(Commands.argument("environment", StringArgumentType.word())
                     .suggests((ctx, builder) -> {
                         Arrays.stream(World.Environment.values())
-                                .map(World.Environment::name)
-                                .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(builder.getRemainingLowerCase()))
-                                .forEach(builder::suggest);
+                            .map(World.Environment::name)
+                            .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(builder.getRemainingLowerCase()))
+                            .forEach(builder::suggest);
                         return builder.buildFuture();
                     })
                     .executes(ctx -> {
@@ -54,26 +54,26 @@ public class CreateCommand implements ICommand {
                         return Command.SINGLE_SUCCESS;
                     })
                     .then(Commands.argument("type", StringArgumentType.word())
-                            .suggests((ctx, builder) -> {
-                                Arrays.stream(WorldType.values())
-                                        .map(WorldType::name)
-                                        .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(builder.getRemainingLowerCase()))
-                                        .forEach(builder::suggest);
-                                return builder.buildFuture();
-                            })
-                            .executes(ctx -> {
+                        .suggests((ctx, builder) -> {
+                            Arrays.stream(WorldType.values())
+                                .map(WorldType::name)
+                                .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(builder.getRemainingLowerCase()))
+                                .forEach(builder::suggest);
+                            return builder.buildFuture();
+                        })
+                        .executes(ctx -> {
 
-                                final String name = ctx.getArgument("name", String.class);
-                                final String environment = ctx.getArgument("environment", String.class);
-                                final String type = ctx.getArgument("type", String.class);
-                                final WorldSettings settings = new WorldSettings();
+                            final String name = ctx.getArgument("name", String.class);
+                            final String environment = ctx.getArgument("environment", String.class);
+                            final String type = ctx.getArgument("type", String.class);
+                            final WorldSettings settings = new WorldSettings();
 
-                                settings.setEnvironment(World.Environment.valueOf(environment));
-                                settings.setType(WorldType.valueOf(type));
+                            settings.setEnvironment(World.Environment.valueOf(environment));
+                            settings.setType(WorldType.valueOf(type));
 
-                                create(ctx.getSource().getSender(), name, settings);
-                                return Command.SINGLE_SUCCESS;
-                            })
+                            create(ctx.getSource().getSender(), name, settings);
+                            return Command.SINGLE_SUCCESS;
+                        })
                     )
                 )
             )
@@ -83,13 +83,13 @@ public class CreateCommand implements ICommand {
     private void create(CommandSender sender, String name, WorldSettings settings) {
 
         sender.sendMessage(plugin.getLanguage().get("creating")
-                .replaceText(Lang.replace("%world%", name))
+            .replaceText(Lang.replace("%world%", name))
         );
 
         plugin.getWorldManager().createWorld(name, settings);
 
         sender.sendMessage(plugin.getLanguage().get("created")
-                .replaceText(Lang.replace("%world%", name))
+            .replaceText(Lang.replace("%world%", name))
         );
     }
 }

@@ -1,5 +1,6 @@
 package dev.mending.worlds.command;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.mending.worlds.Worlds;
 import dev.mending.worlds.command.sub.*;
@@ -16,13 +17,19 @@ public class Command implements ICommand {
 
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("worlds")
+
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("worlds")
             .requires(sender -> sender.getSender().hasPermission("worlds.command"))
             .then(new ReloadCommand(plugin).get())
             .then(new ListCommand(plugin).get())
             .then(new TeleportCommand(plugin).get())
             .then(new CreateCommand(plugin).get())
-            .then(new DeleteCommand(plugin).get())
-            .build();
+            .then(new DeleteCommand(plugin).get());
+
+        if (plugin.getMainConfig().isEnableFlags()) {
+            builder.then(new FlagCommand(plugin).get());
+        }
+
+        return builder.build();
     }
 }
