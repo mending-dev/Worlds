@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.mending.core.paper.api.config.json.Configuration;
+import dev.mending.worlds.utils.StringType;
 import dev.mending.worlds.world.settings.WorldSettings;
 import dev.mending.worlds.world.settings.WorldSettingsAdapter;
 import lombok.Getter;
@@ -100,7 +101,11 @@ public class WorldManager extends Configuration {
 
             for (String ruleName : world.getGameRules()) {
                 String value = world.getGameRuleValue(ruleName);
-                gameRulesObj.addProperty(ruleName, value);
+                if (StringType.isInteger(value)) {
+                    gameRulesObj.addProperty(ruleName, StringType.parseIntegerSafe(value));
+                } else {
+                    gameRulesObj.addProperty(ruleName, StringType.parseBooleanSafe(value));
+                }
             }
 
             worldObj.add("gameRules", gameRulesObj);
