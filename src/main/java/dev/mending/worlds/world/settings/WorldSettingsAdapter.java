@@ -2,7 +2,6 @@ package dev.mending.worlds.world.settings;
 
 import com.google.gson.*;
 import dev.mending.worlds.world.WorldFlag;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 
@@ -21,7 +20,7 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
         JsonObject flagObj = new JsonObject();
 
         for (WorldFlag flag : src.getFlags().keySet()) {
-            flagObj.addProperty(flag.name(), src.getFlags().get(flag));
+            flagObj.addProperty(flag.getName(), src.getFlags().get(flag));
         }
 
         if (!flagObj.isEmpty()) {
@@ -48,7 +47,7 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
             JsonObject flagObj = obj.getAsJsonObject("flags");
             for (Map.Entry<String, JsonElement> entry : flagObj.entrySet()) {
                 Boolean value = context.deserialize(entry.getValue(), Boolean.class);
-                settings.getFlags().put(WorldFlag.valueOf(entry.getKey()), value);
+                settings.getFlags().put(WorldFlag.getByName(entry.getKey()), value);
             }
         }
 
