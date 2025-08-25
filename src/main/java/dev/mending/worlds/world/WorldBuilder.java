@@ -1,6 +1,5 @@
 package dev.mending.worlds.world;
 
-import dev.mending.worlds.Worlds;
 import dev.mending.worlds.world.settings.WorldSettings;
 import lombok.Getter;
 import lombok.Setter;

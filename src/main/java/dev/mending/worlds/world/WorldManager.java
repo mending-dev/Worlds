@@ -8,6 +8,7 @@ import dev.mending.core.paper.api.config.json.Configuration;
 import dev.mending.worlds.world.settings.WorldSettings;
 import dev.mending.worlds.world.settings.WorldSettingsAdapter;
 import lombok.Getter;
+import org.bukkit.GameRule;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +41,7 @@ public class WorldManager extends Configuration {
 
         this.worlds.clear();
 
+        // Load worlds from file
         for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
             String name = entry.getKey();
             WorldSettings settings = gson.fromJson(entry.getValue(), WorldSettings.class);
@@ -60,15 +62,48 @@ public class WorldManager extends Configuration {
                 this.worlds.put(world.getName(), settings);
             }
         });
+
+        // Load game-rules
+        worlds.forEach((name, settings) -> {
+            if (json.has(name)) {
+                JsonObject gameRulesObj = json.getAsJsonObject(name).getAsJsonObject("gameRules");
+                if (gameRulesObj != null) {
+                    for (GameRule gameRule : GameRule.values()) {
+                        if (gameRulesObj.has(gameRule.getName())) {
+                            plugin.getServer().getWorld(name).setGameRule(gameRule, gameRulesObj.get(gameRule.getName()));
+                        }
+                    }
+                }
+            }
+        });
+
+        save();
     }
 
     @Override
     public void onPreSave(JsonObject json) {
+
         json.entrySet().clear();
+
+        // Save settings
         worlds.forEach((name, settings) -> {
             for (Map.Entry<String, WorldSettings> entry : worlds.entrySet()) {
                 json.add(entry.getKey(), gson.toJsonTree(entry.getValue(), WorldSettings.class));
             }
+        });
+
+        // Save game-rules
+        plugin.getServer().getWorlds().forEach(world -> {
+
+            JsonObject worldObj = json.getAsJsonObject(world.getName());
+            JsonObject gameRulesObj = new JsonObject();
+
+            for (String ruleName : world.getGameRules()) {
+                String value = world.getGameRuleValue(ruleName);
+                gameRulesObj.addProperty(ruleName, value);
+            }
+
+            worldObj.add("gameRules", gameRulesObj);
         });
     }
 
