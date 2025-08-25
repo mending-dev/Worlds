@@ -1,0 +1,11 @@
+{
+  "prefix": "<dark_gray>[<gold><bold>Worlds</bold><dark_gray>]",
+  "messages": {
+    "list": "<prefix> <gray>List of all worlds: <yellow>%worlds%",
+    "notFound": "<prefix> <red>%world% <gray>does not exists.",
+    "creating": "<prefix> <gray>Creating <yellow>%world% <gray>...",
+    "created": "<prefix> <yellow>%world% <gray>has been created.",
+    "deleting": "<prefix> <gray>Deleting <yellow>%world% <gray>...",
+    "deleted": "<prefix> <yellow>%world% <gray>has been deleted."
+  }
+}

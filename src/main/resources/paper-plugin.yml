@@ -1,0 +1,11 @@
+name: Worlds
+version: '1.0.0'
+main: dev.mending.worlds.Worlds
+api-version: '1.21'
+authors: [ MrMending ]
+website: https://mending.dev
+dependencies:
+  server:
+    MendingCore:
+      required: true
+      load: BEFORE
