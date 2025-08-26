@@ -78,6 +78,18 @@ public class DeleteCommand implements ICommand {
             return;
         }
 
+        world.getPlayers().forEach(p -> {
+            World backupWorld = plugin.getServer().getWorlds().getFirst();
+            if (backupWorld.getName().equals(worldName)) {
+                for (World w : plugin.getServer().getWorlds()) {
+                    if (!w.getName().equals(worldName)) {
+                        backupWorld = w;
+                    }
+                }
+            }
+            p.teleport(backupWorld.getSpawnLocation());
+        });
+
         sender.sendMessage(plugin.getLanguage().get("deleting")
             .replaceText(Lang.replace("%world%", worldName))
         );
