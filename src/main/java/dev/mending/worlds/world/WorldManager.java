@@ -5,10 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.mending.core.paper.api.config.json.Configuration;
+import dev.mending.worlds.chunk.ChunkLoader;
 import dev.mending.worlds.world.settings.WorldSettings;
 import dev.mending.worlds.world.settings.WorldSettingsAdapter;
 import lombok.Getter;
 import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +48,10 @@ public class WorldManager extends Configuration {
             WorldSettings settings = gson.fromJson(entry.getValue(), WorldSettings.class);
 
             if (plugin.getServer().getWorld(name) == null) {
-                new WorldBuilder(plugin, name, settings).create();
+                World world = new WorldBuilder(plugin, name, settings).create();
+                if (settings.getDifficulty() != null) {
+                    world.setDifficulty(settings.getDifficulty());
+                }
             }
 
             this.worlds.put(name, settings);

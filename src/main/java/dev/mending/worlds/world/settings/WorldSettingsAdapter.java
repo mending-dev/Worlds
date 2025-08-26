@@ -2,6 +2,7 @@ package dev.mending.worlds.world.settings;
 
 import com.google.gson.*;
 import dev.mending.worlds.world.WorldFlag;
+import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 
@@ -16,6 +17,14 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
 
         obj.addProperty("type", src.getType().name());
         obj.addProperty("environment", src.getEnvironment().name());
+
+        if (src.getDifficulty() != null) {
+            obj.addProperty("difficulty", src.getDifficulty().name());
+        }
+
+        if (src.getPreGenerateChunkRadius() > 0) {
+            obj.addProperty("preGenerateChunkRadius", src.getPreGenerateChunkRadius());
+        }
 
         JsonObject flagObj = new JsonObject();
 
@@ -41,6 +50,14 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
 
         if (obj.has("environment")) {
             settings.setEnvironment(World.Environment.valueOf(obj.get("environment").getAsString()));
+        }
+
+        if (obj.has("difficulty")) {
+            settings.setDifficulty(Difficulty.valueOf(obj.get("difficulty").getAsString()));
+        }
+
+        if (obj.has("preGenerateChunkRadius")) {
+            settings.setPreGenerateChunkRadius(obj.get("preGenerateChunkRadius").getAsInt());
         }
 
         if (obj.has("flags")) {

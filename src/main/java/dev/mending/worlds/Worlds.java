@@ -1,6 +1,7 @@
 package dev.mending.worlds;
 
 import dev.mending.core.paper.api.language.json.Language;
+import dev.mending.worlds.chunk.ChunkHandler;
 import dev.mending.worlds.chunk.ChunkLoader;
 import dev.mending.worlds.command.Command;
 import dev.mending.worlds.config.MainConfig;
@@ -8,6 +9,7 @@ import dev.mending.worlds.listener.FlagListener;
 import dev.mending.worlds.world.WorldManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
+import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,11 +32,9 @@ public final class Worlds extends JavaPlugin {
         registerEvents(getServer().getPluginManager());
         registerCommands();
 
-//        new ChunkLoader(getServer().getWorld("world"), 10, this).generateAsync((current, total) -> {
-//            getLogger().info(String.format("Progress: %.2f%%", (current / (double) total) * 100));
-//        });
-
         this.worldManager.save();
+
+        ChunkHandler.preGenerateChunks(this);
     }
 
     @Override
