@@ -26,6 +26,12 @@ A lightweight yet powerful plugin for Paper servers (version 1.21+), designed to
 
 ---
 
+## 🧩 Dependencies
+
+**Worlds** depends on [MendingCore](https://github.com/mending-dev/MendingCore). Please ensure you have this plugin installed on your server for **Worlds** to function properly.
+
+---
+
 ## 📦 Commands
 
 The plugin provides a main `/world` command with several subcommands:
