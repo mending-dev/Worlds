@@ -39,7 +39,7 @@ public class TeleportCommand implements ICommand {
                 .executes(ctx -> {
                     if (ctx.getSource().getSender() instanceof Player player) {
                         final String worldName = ctx.getArgument("world", String.class);
-                        return teleport(worldName, ctx.getSource().getSender(), player);
+                        teleport(worldName, ctx.getSource().getSender(), player);
                     }
                     return Command.SINGLE_SUCCESS;
                 })
@@ -47,14 +47,15 @@ public class TeleportCommand implements ICommand {
                     .executes(ctx -> {
                         final Player player = ctx.getArgument("player", PlayerSelectorArgumentResolver.class).resolve(ctx.getSource()).getFirst();
                         final String worldName = ctx.getArgument("world", String.class);
-                        return teleport(worldName, ctx.getSource().getSender(), player);
+                        teleport(worldName, ctx.getSource().getSender(), player);
+                        return Command.SINGLE_SUCCESS;
                     })
                 )
             )
             .build();
     }
 
-    private int teleport(String worldName, CommandSender sender, Player target) {
+    private void teleport(String worldName, CommandSender sender, Player target) {
 
         final World world = plugin.getServer().getWorld(worldName);
 
@@ -62,10 +63,9 @@ public class TeleportCommand implements ICommand {
             sender.sendMessage(plugin.getLanguage().get("notFound")
                     .replaceText(Lang.replace("%world%", worldName))
             );
-            return Command.SINGLE_SUCCESS;
+            return;
         }
 
         target.teleport(world.getSpawnLocation());
-        return Command.SINGLE_SUCCESS;
     }
 }

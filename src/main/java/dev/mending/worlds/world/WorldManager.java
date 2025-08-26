@@ -103,14 +103,11 @@ public class WorldManager extends Configuration {
 
                 Object value = world.getGameRuleValue(rule);
                 if (value != null) {
-                    if (value instanceof Boolean b) {
-                        gameRulesObj.addProperty(rule.getName(), b);
-                    } else if (value instanceof Integer i) {
-                        gameRulesObj.addProperty(rule.getName(), i);
-                    } else if (value instanceof Double d) {
-                        gameRulesObj.addProperty(rule.getName(), d);
-                    } else {
-                        gameRulesObj.addProperty(rule.getName(), value.toString());
+                    switch (value) {
+                        case Boolean b -> gameRulesObj.addProperty(rule.getName(), b);
+                        case Integer i -> gameRulesObj.addProperty(rule.getName(), i);
+                        case Double d -> gameRulesObj.addProperty(rule.getName(), d);
+                        default -> gameRulesObj.addProperty(rule.getName(), value.toString());
                     }
                 }
             }
