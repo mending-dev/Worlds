@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.mending.core.paper.api.config.json.Configuration;
-import dev.mending.worlds.utils.StringType;
 import dev.mending.worlds.world.settings.WorldSettings;
 import dev.mending.worlds.world.settings.WorldSettingsAdapter;
 import lombok.Getter;
@@ -13,8 +12,7 @@ import org.bukkit.GameRule;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class WorldManager extends Configuration {
@@ -77,8 +75,6 @@ public class WorldManager extends Configuration {
                 }
             }
         });
-
-        save();
     }
 
     @Override
@@ -98,13 +94,24 @@ public class WorldManager extends Configuration {
 
             JsonObject worldObj = json.getAsJsonObject(world.getName());
             JsonObject gameRulesObj = new JsonObject();
+            Set<String> availableRules = new HashSet<>(Arrays.asList(world.getGameRules()));
 
-            for (String ruleName : world.getGameRules()) {
-                String value = world.getGameRuleValue(ruleName);
-                if (StringType.isInteger(value)) {
-                    gameRulesObj.addProperty(ruleName, StringType.parseIntegerSafe(value));
-                } else {
-                    gameRulesObj.addProperty(ruleName, StringType.parseBooleanSafe(value));
+            for (GameRule<?> rule : GameRule.values()) {
+                if (!availableRules.contains(rule.getName())) {
+                    continue; // diese Welt kennt die Regel nicht
+                }
+
+                Object value = world.getGameRuleValue(rule);
+                if (value != null) {
+                    if (value instanceof Boolean b) {
+                        gameRulesObj.addProperty(rule.getName(), b);
+                    } else if (value instanceof Integer i) {
+                        gameRulesObj.addProperty(rule.getName(), i);
+                    } else if (value instanceof Double d) {
+                        gameRulesObj.addProperty(rule.getName(), d);
+                    } else {
+                        gameRulesObj.addProperty(rule.getName(), value.toString());
+                    }
                 }
             }
 
@@ -115,6 +122,7 @@ public class WorldManager extends Configuration {
     public void createWorld(String name, WorldSettings settings) {
         new WorldBuilder(plugin, name, settings).create();
         this.worlds.put(name, settings);
+        save();
     }
 
 }

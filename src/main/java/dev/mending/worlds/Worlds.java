@@ -28,6 +28,8 @@ public final class Worlds extends JavaPlugin {
 
         registerEvents(getServer().getPluginManager());
         registerCommands();
+
+        this.worldManager.save();
     }
 
     @Override
