@@ -26,8 +26,8 @@ public class DeleteCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("delete")
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
+        return Commands.literal(literal)
             .requires(sender -> sender.getSender().hasPermission("worlds.command.delete"))
             .then(Commands.argument("world", StringArgumentType.word())
                 .suggests((ctx, builder) -> {

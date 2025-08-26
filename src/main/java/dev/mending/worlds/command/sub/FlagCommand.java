@@ -24,8 +24,8 @@ public class FlagCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("flag")
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
+        return Commands.literal(literal)
             .requires(sender -> sender.getSender().hasPermission("worlds.command.flag"))
             .then(Commands.argument("world", StringArgumentType.word())
                 .suggests((ctx, builder) -> {

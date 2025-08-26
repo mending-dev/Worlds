@@ -16,18 +16,19 @@ public class Command implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
 
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("worlds")
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal(literal)
             .requires(sender -> sender.getSender().hasPermission("worlds.command"))
-            .then(new ReloadCommand(plugin).get())
-            .then(new ListCommand(plugin).get())
-            .then(new TeleportCommand(plugin).get())
-            .then(new CreateCommand(plugin).get())
-            .then(new DeleteCommand(plugin).get());
+            .then(new ReloadCommand(plugin).get("reload"))
+            .then(new ListCommand(plugin).get("list"))
+            .then(new TeleportCommand(plugin).get("teleport"))
+            .then(new CreateCommand(plugin).get("create"))
+            .then(new CreateCommand(plugin).get("import"))
+            .then(new DeleteCommand(plugin).get("delete"));
 
         if (plugin.getMainConfig().isEnableFlags()) {
-            builder.then(new FlagCommand(plugin).get());
+            builder.then(new FlagCommand(plugin).get("flag"));
         }
 
         return builder.build();

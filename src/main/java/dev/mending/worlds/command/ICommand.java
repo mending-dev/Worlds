@@ -5,6 +5,6 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 
 public interface ICommand {
 
-    LiteralCommandNode<CommandSourceStack> get();
+    LiteralCommandNode<CommandSourceStack> get(String literal);
 
 }

@@ -16,8 +16,8 @@ public class ReloadCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("reload")
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
+        return Commands.literal(literal)
             .requires(sender -> sender.getSender().hasPermission("worlds.command.reload"))
             .executes(ctx -> {
                 plugin.getLanguage().reload();

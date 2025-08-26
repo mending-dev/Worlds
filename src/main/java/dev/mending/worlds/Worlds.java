@@ -45,7 +45,7 @@ public final class Worlds extends JavaPlugin {
 
     private void registerCommands() {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-            commands.registrar().register(new Command(this).get(), List.of("world"));
+            commands.registrar().register(new Command(this).get("worlds"), List.of("world"));
         });
     }
 }

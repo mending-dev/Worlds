@@ -20,8 +20,8 @@ public class ListCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("list")
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
+        return Commands.literal(literal)
                 .requires(sender -> sender.getSender().hasPermission("worlds.command.list"))
                 .executes(ctx -> {
                     ctx.getSource().getSender().sendMessage(

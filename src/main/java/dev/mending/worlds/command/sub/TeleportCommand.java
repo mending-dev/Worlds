@@ -25,8 +25,8 @@ public class TeleportCommand implements ICommand {
     }
 
     @Override
-    public LiteralCommandNode<CommandSourceStack> get() {
-        return Commands.literal("teleport")
+    public LiteralCommandNode<CommandSourceStack> get(String literal) {
+        return Commands.literal(literal)
             .requires(sender -> sender.getSender().hasPermission("worlds.command.teleport"))
             .then(Commands.argument("world", StringArgumentType.word())
                 .suggests((ctx, builder) -> {
