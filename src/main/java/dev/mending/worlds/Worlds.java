@@ -1,6 +1,7 @@
 package dev.mending.worlds;
 
 import dev.mending.core.paper.api.language.json.Language;
+import dev.mending.worlds.chunk.ChunkLoader;
 import dev.mending.worlds.command.Command;
 import dev.mending.worlds.config.MainConfig;
 import dev.mending.worlds.listener.FlagListener;
@@ -28,6 +29,10 @@ public final class Worlds extends JavaPlugin {
 
         registerEvents(getServer().getPluginManager());
         registerCommands();
+
+//        new ChunkLoader(getServer().getWorld("world"), 10, this).generateAsync((current, total) -> {
+//            getLogger().info(String.format("Progress: %.2f%%", (current / (double) total) * 100));
+//        });
 
         this.worldManager.save();
     }
