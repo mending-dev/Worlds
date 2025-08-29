@@ -18,6 +18,10 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
         obj.addProperty("type", src.getType().name());
         obj.addProperty("environment", src.getEnvironment().name());
 
+        if (src.getGenerator() != null) {
+            obj.addProperty("generator", src.getGenerator());
+        }
+
         if (src.getDifficulty() != null) {
             obj.addProperty("difficulty", src.getDifficulty().name());
         }
@@ -50,6 +54,10 @@ public class WorldSettingsAdapter implements JsonSerializer<WorldSettings>, Json
 
         if (obj.has("environment")) {
             settings.setEnvironment(World.Environment.valueOf(obj.get("environment").getAsString()));
+        }
+
+        if (obj.has("generator")) {
+            settings.setGenerator(obj.get("generator").getAsString());
         }
 
         if (obj.has("difficulty")) {

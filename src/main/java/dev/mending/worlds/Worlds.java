@@ -2,14 +2,12 @@ package dev.mending.worlds;
 
 import dev.mending.core.paper.api.language.json.Language;
 import dev.mending.worlds.chunk.ChunkHandler;
-import dev.mending.worlds.chunk.ChunkLoader;
 import dev.mending.worlds.command.Command;
 import dev.mending.worlds.config.MainConfig;
 import dev.mending.worlds.listener.FlagListener;
 import dev.mending.worlds.world.WorldManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
-import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 

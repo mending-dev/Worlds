@@ -6,6 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.mending.core.paper.api.language.Lang;
 import dev.mending.worlds.Worlds;
 import dev.mending.worlds.command.ICommand;
+import dev.mending.worlds.world.WorldHelper;
 import dev.mending.worlds.world.settings.WorldSettings;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -46,6 +47,8 @@ public class CreateCommand implements ICommand {
                                 }
                             }
                         }
+                    } else {
+                        builder.suggest("<name>");
                     }
                     return builder.buildFuture();
                 })
@@ -94,6 +97,31 @@ public class CreateCommand implements ICommand {
                             create(ctx.getSource().getSender(), name, settings);
                             return Command.SINGLE_SUCCESS;
                         })
+                        .then(Commands.argument("generator", StringArgumentType.word())
+                            .suggests((ctx, builder) -> {
+                                WorldHelper.loadGenerators(plugin).stream()
+                                    .map(String::new)
+                                    .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(builder.getRemainingLowerCase()))
+                                    .forEach(builder::suggest);
+                                return builder.buildFuture();
+                            })
+                            .executes(ctx -> {
+
+                                final String name = ctx.getArgument("name", String.class);
+                                final String environment = ctx.getArgument("environment", String.class);
+                                final String type = ctx.getArgument("type", String.class);
+                                final String generator = ctx.getArgument("generator", String.class);
+                                final WorldSettings settings = new WorldSettings();
+
+                                settings.setEnvironment(World.Environment.valueOf(environment));
+                                settings.setType(WorldType.valueOf(type));
+                                settings.setGenerator(generator);
+
+                                create(ctx.getSource().getSender(), name, settings);
+
+                                return Command.SINGLE_SUCCESS;
+                            })
+                        )
                     )
                 )
             )
